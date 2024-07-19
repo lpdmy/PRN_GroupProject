@@ -27,6 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="AdminWindow.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
     <Page Update="CustomerWindow.xaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Page>

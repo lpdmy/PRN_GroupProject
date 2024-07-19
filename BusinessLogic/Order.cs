@@ -19,5 +19,7 @@ namespace BusinessLogic
         public virtual Customer Customer { get; set; }
 
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
+
+        public OrderStatus OrderStatus { get; set; }
     }
 }
