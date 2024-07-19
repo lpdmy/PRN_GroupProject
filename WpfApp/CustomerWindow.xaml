@@ -180,17 +180,16 @@
                             </StackPanel>
                         </TabItem.Header>
                         <StackPanel Margin="16">
-                            <TextBlock Margin="0,0,0,8"
-                                       Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                                       Text="Recent" />
-                            <TextBlock>
-          <Run Text="tab 2 content. Default look and behaviors." />
-          <LineBreak />
-          <LineBreak />
-          <Run FontStyle="Italic">
-          Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
-        </Run>
-                            </TextBlock>
+                                <TextBlock Text="Your cart"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="24"
+                                           FontWeight="Bold"
+                                           TextAlignment="Center"
+                                           Margin="0 20"
+                                           TextWrapping="Wrap"
+                                           FontFamily="Segoe UI" />
+
                         </StackPanel>
                     </TabItem>
                     <TabItem>
@@ -205,18 +204,17 @@
                                            Text="Account" />
                             </StackPanel>
                         </TabItem.Header>
-                        <StackPanel Margin="16">
-                            <TextBlock Margin="0,0,0,8"
-                                       Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                                       Text="Photos" />
-                            <TextBlock>
-          <Run Text="tab 3 content. Default look and behaviors." />
-          <LineBreak />
-          <LineBreak />
-          <Run FontStyle="Italic">
-          Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
-        </Run>
-                            </TextBlock>
+                            <StackPanel Margin="16">
+                                <TextBlock Text="Your account information"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="24"
+                                           FontWeight="Bold"
+                                           TextAlignment="Center"
+                                           Margin="0 20"
+                                           TextWrapping="Wrap"
+                                           FontFamily="Segoe UI" />
+
                         </StackPanel>
                     </TabItem>
                  

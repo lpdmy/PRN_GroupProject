@@ -12,5 +12,6 @@ namespace BusinessLogic
         public int UnitInStock { get; set; }
         public virtual Category Category { get; set; }
         public int CategoryId { get; set; }
+        public string ImagePath { get; set; }
     }
 }
