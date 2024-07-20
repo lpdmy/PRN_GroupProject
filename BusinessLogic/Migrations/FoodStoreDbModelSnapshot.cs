@@ -30,6 +30,10 @@ namespace BusinessLogic.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
 
+                    b.Property<string>("CategoryDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -37,6 +41,26 @@ namespace BusinessLogic.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryDescription = "Unhealthy",
+                            CategoryName = "Fast food"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryDescription = "Not delicious as you see",
+                            CategoryName = "Japanese food"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryDescription = "Thirsty",
+                            CategoryName = "Drink"
+                        });
                 });
 
             modelBuilder.Entity("BusinessLogic.Customer", b =>
@@ -49,7 +73,10 @@ namespace BusinessLogic.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsDisabled")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -57,11 +84,43 @@ namespace BusinessLogic.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CustomerId");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("UserName")
+                        .IsUnique();
+
                     b.ToTable("Customers");
+
+                    b.HasData(
+                        new
+                        {
+                            CustomerId = 1,
+                            Email = "mylpdde180283@fpt.edu.vn",
+                            IsDisabled = false,
+                            Password = "123",
+                            UserName = "dieumy"
+                        },
+                        new
+                        {
+                            CustomerId = 2,
+                            Email = "my1lpdde180283@fpt.edu.vn",
+                            IsDisabled = false,
+                            Password = "123",
+                            UserName = "dieumy1"
+                        },
+                        new
+                        {
+                            CustomerId = 3,
+                            Email = "my2lpdde180283@fpt.edu.vn",
+                            IsDisabled = false,
+                            Password = "123",
+                            UserName = "dieumy2"
+                        });
                 });
 
             modelBuilder.Entity("BusinessLogic.Order", b =>
@@ -80,6 +139,9 @@ namespace BusinessLogic.Migrations
 
                     b.Property<int>("OrderStatus")
                         .HasColumnType("int");
+
+                    b.Property<double>("TotalPrice")
+                        .HasColumnType("float");
 
                     b.HasKey("OrderId");
 
@@ -140,14 +202,67 @@ namespace BusinessLogic.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UnitInStock")
-                        .HasColumnType("int");
-
                     b.HasKey("ProductId");
 
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            CategoryId = 1,
+                            Description = "Hamburger with cheese and beefsteak",
+                            ImagePath = "/Img/hamburger.jpg",
+                            Price = 10.0,
+                            ProductName = "VIP Hamburger"
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            CategoryId = 1,
+                            Description = "Pizza with cheese and beefsteak",
+                            ImagePath = "/Img/pizza.jpg",
+                            Price = 50.0,
+                            ProductName = "VIP Pizza"
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            CategoryId = 2,
+                            Description = "Sushi is fresh",
+                            ImagePath = "/Img/sushi.jpg",
+                            Price = 100.0,
+                            ProductName = "Golden Sushi"
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            CategoryId = 2,
+                            Description = "Sashimi is fresh too",
+                            ImagePath = "/Img/sashimi.jpg",
+                            Price = 60.0,
+                            ProductName = "Golden Sashimi"
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            CategoryId = 2,
+                            Description = "Very very big sukiyaki",
+                            ImagePath = "/Img/sukiyaki.jpg",
+                            Price = 150.0,
+                            ProductName = "Sukiyaki Hotpot"
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            CategoryId = 3,
+                            Description = "Very very big sukiyaki",
+                            ImagePath = "/Img/coca.jpg",
+                            Price = 15.0,
+                            ProductName = "Sukiyaki Hotpot"
+                        });
                 });
 
             modelBuilder.Entity("BusinessLogic.Order", b =>

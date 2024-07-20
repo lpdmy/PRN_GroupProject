@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Loaded="Window_Loaded"
         mc:Ignorable="d"
-        Height="645"
-        Width="875"
+        Height="800"
+        Width="1200"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -27,12 +28,14 @@
                 Margin="0 13 14 0"
                 Opacity="0.3"
                 Background="Transparent"
+                Foreground="Black"
                 BorderBrush="Transparent"
-                Panel.ZIndex="1">
+                Panel.ZIndex="1"
+                Click="Close_Click">
             <materialDesign:PackIcon Kind="Close"
                                      Width="20"
                                      Height="20"
-                                     Foreground="White" />
+                                     Foreground="Black" />
         </Button>
 
         <Border x:Name="RightSection"
@@ -53,19 +56,60 @@
                                                          HorizontalAlignment="Center"
                                                          Kind="AccountGroup" />
                                 <TextBlock HorizontalAlignment="Center"
-                                           Text="Customers" />
+                                           Text="Customer" />
+
                             </StackPanel>
                         </TabItem.Header>
                         <StackPanel Margin="16">
-                            <TextBlock Text="Manage Customer"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       FontSize="24"
-                                       FontWeight="Bold"
-                                       TextAlignment="Center"
-                                       Margin="0 20"
-                                       TextWrapping="Wrap"
-                                       FontFamily="Segoe UI" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Manage Customer"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="24"
+                                           FontWeight="Bold"
+                                           TextAlignment="Center"
+                                           Margin="0 20"
+                                           TextWrapping="Wrap"
+                                           FontFamily="Segoe UI" />
+                            </StackPanel>
+
+
+                            <DataGrid Name="dtg_allCustomer"
+                                      SelectionMode="Extended"
+                                      SelectionUnit="FullRow"
+                                      CanUserDeleteRows="True"
+                                      CanUserAddRows="True"
+                                      IsReadOnly="True"
+                                      AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Customer ID"
+                                                        Binding="{Binding CustomerId}" />
+                                    <DataGridTextColumn Header="User Name"
+                                                        Binding="{Binding UserName}" />
+                                    <DataGridTextColumn Header="Email"
+                                                        Binding="{Binding Email}" />
+                                    <DataGridTextColumn Header="Password"
+                                                        Binding="{Binding Password}" />
+
+                                    <DataGridCheckBoxColumn Header="Is Disabled"
+                                                            Binding="{Binding IsDisabled}" />
+
+                                    <DataGridTemplateColumn Header="Actions">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="Change status"
+                                                        Command="{Binding DataContext.DisableUserCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                        CommandParameter="{Binding}"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Margin="5"
+                                                        Click="Disable_Click" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+
+                            </DataGrid>
 
                         </StackPanel>
                     </TabItem>
@@ -82,7 +126,8 @@
                             </StackPanel>
                         </TabItem.Header>
                         <StackPanel Margin="16">
-                                <TextBlock Text="Manage order"
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Manage Order"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontSize="24"
@@ -91,6 +136,61 @@
                                            Margin="0 20"
                                            TextWrapping="Wrap"
                                            FontFamily="Segoe UI" />
+
+                            </StackPanel>
+                            <DataGrid Name="dtgAllOrders"
+                                      SelectionMode="Extended"
+                                      SelectionUnit="FullRow"
+                                      CanUserDeleteRows="True"
+                                      CanUserAddRows="True"
+                                      IsReadOnly="True"
+                                      AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="#"
+                                                        Binding="{Binding OrderId}" />
+                                    <DataGridTextColumn Header="Order Date"
+                                                        Binding="{Binding OrderDate}" />
+                                    <DataGridTextColumn Header="Total Price"
+                                                        Binding="{Binding TotalPrice}" />
+                                    <DataGridTextColumn Header="Order Status"
+                                                        Binding="{Binding OrderStatus}" />
+                                    <DataGridTextColumn Header="Customer"
+                                                        Binding="{Binding Customer.UserName}" />
+                                    <DataGridTemplateColumn Header="Actions">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="View details"
+                                                        Command="{Binding DataContext.DeleteOrderProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                        CommandParameter="{Binding}"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Margin="5"
+                                                        Click="ViewDetail_Click" />
+
+                                            </DataTemplate>
+
+                                        </DataGridTemplateColumn.CellTemplate>
+
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="Update Status"
+                                                        Command="{Binding DataContext.DeleteOrderProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                        CommandParameter="{Binding}"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Margin="5"
+                                                        Click="UpdateOrderStatus_Click" />
+
+                                            </DataTemplate>
+
+                                        </DataGridTemplateColumn.CellTemplate>
+
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+
+                            </DataGrid>
 
                         </StackPanel>
                     </TabItem>
@@ -101,13 +201,14 @@
                                 <materialDesign:PackIcon Width="24"
                                                          Height="24"
                                                          HorizontalAlignment="Center"
-                                                         Kind="AccountCircle" />
+                                                         Kind="FoodApple" />
                                 <TextBlock HorizontalAlignment="Center"
-                                           Text="Account" />
+                                           Text="Product" />
                             </StackPanel>
                         </TabItem.Header>
                         <StackPanel Margin="16">
-                                <TextBlock Text="Your account information"
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Manage Product"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontSize="24"
@@ -116,8 +217,173 @@
                                            Margin="0 20"
                                            TextWrapping="Wrap"
                                            FontFamily="Segoe UI" />
+                                <Button Margin="20 0"
+                                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                        Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                        ToolTip="MaterialDesignFloatingActionMiniLightButton"
+                                        Click="AddProduct_Click"
+                                        >
+                                    <materialDesign:PackIcon Kind="Add" />
+                                </Button>
+                            </StackPanel>
+                            <DataGrid Name="dtg_allProduct"
+                                      SelectionMode="Extended"
+                                      SelectionUnit="FullRow"
+                                      CanUserDeleteRows="True"
+                                      CanUserAddRows="True"
+                                      IsReadOnly="True"
+                                      AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Product ID"
+                                                        Binding="{Binding ProductId}" />
+                                    <DataGridTextColumn Header="Product Name"
+                                                        Binding="{Binding ProductName}" />
+                                    <DataGridTextColumn Header="Description"
+                                                        Binding="{Binding Description}" />
+                                    <DataGridTextColumn Header="Price"
+                                                        Binding="{Binding Price}" />
+                                    <DataGridTextColumn Header="Category"
+                                                        Binding="{Binding Category.CategoryName}" />
+                                    <DataGridTemplateColumn Header="Image">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding ImagePath}"
+                                                       Width="50"
+                                                       Height="50" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="Actions">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="Update"
+                                                        Command="{Binding DataContext.DeleteOrderProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                        CommandParameter="{Binding}"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Margin="5" 
+                                                        Click="UpdateProduct_Click"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="Delete"
+                                                        Command="{Binding DataContext.DeleteOrderProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                        CommandParameter="{Binding}"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Click="DeleteProduct_Click"
+                                                        Margin="5" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+
+                            </DataGrid>
 
                         </StackPanel>
+                    </TabItem>
+                    <TabItem>
+                        <TabItem.Header>
+                            <StackPanel Width="auto"
+                                        Height="auto">
+                                <materialDesign:PackIcon Width="24"
+                                                         Height="24"
+                                                         HorizontalAlignment="Center"
+                                                         Kind="FormatListBulletedType" />
+                                <TextBlock HorizontalAlignment="Center"
+                                           Text="Category" />
+                            </StackPanel>
+                        </TabItem.Header>
+                        <StackPanel Margin="16">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Manage Category"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="24"
+                                           FontWeight="Bold"
+                                           TextAlignment="Center"
+                                           Margin="0 20"
+                                           TextWrapping="Wrap"
+                                           FontFamily="Segoe UI" />
+                                <Button Margin="20 0"
+                                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                        Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                        ToolTip="MaterialDesignFloatingActionMiniLightButton"
+                                        Click="AddCate_Click">
+                                    <materialDesign:PackIcon Kind="Add" />
+                                </Button>
+                            </StackPanel>
+                            <DataGrid Name="dtg_allCategories"
+                                      ItemsSource="{Binding CurrentOrder.OrderProducts}"
+                                      SelectionMode="Extended"
+                                      SelectionUnit="FullRow"
+                                      CanUserDeleteRows="True"
+                                      CanUserAddRows="True"
+                                      IsReadOnly="True"
+                                      AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Category ID"
+                                                        Binding="{Binding CategoryId}" />
+                                    <DataGridTextColumn Header="Category Name"
+                                                        Binding="{Binding CategoryName}" />
+
+                                    <DataGridTemplateColumn Header="Actions">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="Update"
+                                                        Command="{Binding DataContext.DeleteOrderProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                        CommandParameter="{Binding}"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Click="UpdateCate_Click"
+                                                        Margin="5" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="Delete"
+                                                        Command="{Binding DataContext.DeleteOrderProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                        CommandParameter="{Binding}"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Click="DeleteCate_Click"
+                                                        Margin="5" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+
+                            </DataGrid>
+
+
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem>
+                        <TabItem.Header>
+                            <Button Click="LogOut_Click"
+                                    Width="80"
+                                    Height="70"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent">
+                                <StackPanel Width="auto"
+                                            Height="auto">
+                                    <materialDesign:PackIcon Width="24"
+                                                             Height="24"
+                                                             HorizontalAlignment="Center"
+                                                             Kind="Logout" />
+                                    <TextBlock HorizontalAlignment="Center"
+                                               Text="Log out" />
+                                </StackPanel>
+                            </Button>
+
+                        </TabItem.Header>
+                        <StackPanel Margin="16" />
                     </TabItem>
 
                 </TabControl>

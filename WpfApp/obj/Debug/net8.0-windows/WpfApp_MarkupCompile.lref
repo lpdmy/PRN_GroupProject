@@ -1,6 +1,14 @@
 ﻿
 FD:\PE_Practice_PRN49k\PRN_Group Project\WpfApp\App.xaml;;
+FD:\PE_Practice_PRN49k\PRN_Group Project\WpfApp\AddCategoryWindow.xaml;;
+FD:\PE_Practice_PRN49k\PRN_Group Project\WpfApp\AddProductWindow.xaml;;
+FD:\PE_Practice_PRN49k\PRN_Group Project\WpfApp\AdminWindow.xaml;;
+FD:\PE_Practice_PRN49k\PRN_Group Project\WpfApp\ChangePasswordWindow.xaml;;
 FD:\PE_Practice_PRN49k\PRN_Group Project\WpfApp\CustomerWindow.xaml;;
 FD:\PE_Practice_PRN49k\PRN_Group Project\WpfApp\MainWindow.xaml;;
-FD:\PE_Practice_PRN49k\PRN_Group Project\WpfApp\AdminWindow.xaml;;
+FD:\PE_Practice_PRN49k\PRN_Group Project\WpfApp\OrderDetailWindow.xaml;;
+FD:\PE_Practice_PRN49k\PRN_Group Project\WpfApp\UpdateCategoryWindow.xaml;;
+FD:\PE_Practice_PRN49k\PRN_Group Project\WpfApp\UpdateOrderStatusWindow.xaml;;
+FD:\PE_Practice_PRN49k\PRN_Group Project\WpfApp\UpdateProductWindow.xaml;;
+FD:\PE_Practice_PRN49k\PRN_Group Project\WpfApp\UpdateUserInformationWindow.xaml;;
 

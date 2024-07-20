@@ -21,5 +21,7 @@ namespace BusinessLogic
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
 
         public OrderStatus OrderStatus { get; set; }
+
+        public double TotalPrice { get; set; }
     }
 }

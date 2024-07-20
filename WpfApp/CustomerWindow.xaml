@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Loaded="Window_Loaded"
         mc:Ignorable="d"
         Height="645"
         Width="875"
@@ -28,11 +29,12 @@
                 Opacity="0.3"
                 Background="Transparent"
                 BorderBrush="Transparent"
-                Panel.ZIndex="1">
+                Panel.ZIndex="1"
+                Click="Close_Click">
             <materialDesign:PackIcon Kind="Close"
                                      Width="20"
                                      Height="20"
-                                     Foreground="White" />
+                                     Foreground="#FF336699" />
         </Button>
 
         <Border x:Name="RightSection"
@@ -65,75 +67,119 @@
                                        TextAlignment="Center"
                                        Margin="0 20"
                                        TextWrapping="Wrap"
-                                       FontFamily="Segoe UI" />
+                                       FontFamily="Segoe UI">
+                                <TextBlock.Foreground>
+                                    <LinearGradientBrush StartPoint="0,0"
+                                                         EndPoint="1,1">
+                                        <GradientStop Color="#FF6699CC"
+                                                      Offset="0" />
+                                        <GradientStop Color="#FF336699"
+                                                      Offset="1" />
+                                    </LinearGradientBrush>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center">
+                                <ComboBox Name="cboCategory"
+                                          HorizontalAlignment="Left"
+                                          Width="256"
+                                          FontSize="14"
+                                          Height="50"
+                                          Margin="20"
+                                          materialDesign:HintAssist.HelperText="Choose food category"
+                                          materialDesign:HintAssist.Hint="Food category"
+                                          Style="{StaticResource MaterialDesignOutlinedComboBox}">
 
-                            <ComboBox HorizontalAlignment="Left"
-                                      Width="256"
-                                      Height="50"
-                                      Margin="10"
-                                      materialDesign:HintAssist.HelperText="Choose food category"
-                                      materialDesign:HintAssist.Hint="Food category"
-                                      Style="{StaticResource MaterialDesignOutlinedComboBox}">
-                                <ComboBoxItem Content="Item 1" />
-                                <ComboBoxItem Content="Item 2" />
-                                <ComboBoxItem Content="Item 3" />
-                            </ComboBox>
-                            
-                                <Grid>
-                                    <ScrollViewer Height="450">
-                                        <ItemsControl ItemsSource="{Binding Products}" Margin="10">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <WrapPanel Orientation="Horizontal"
-                                                               Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ScrollViewer}}">
-                                                        <!-- Bind the WrapPanel width to ScrollViewer's ActualWidth -->
-                                                    </WrapPanel>
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <materialDesign:Card Width="200"
-                                                                         Margin="10">
-                                                        <Grid>
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="140" />
-                                                                <RowDefinition Height="*" />
-                                                                <RowDefinition Height="Auto" />
-                                                            </Grid.RowDefinitions>
-                                                            <Image Grid.Row="0"
-                                                                   Source="{Binding ImagePath}"
-                                                                   Stretch="UniformToFill" />
+                                </ComboBox>
+                                <StackPanel>
+                                    <CheckBox Visibility="Hidden" />
+                                    <TextBox VerticalAlignment="Top"
+                                             Width="300"
+                                             FontSize="14"
+                                             Height="50"
+                                             Name="txtSearchInput"
+                                             materialDesign:HintAssist.HelperText="Search key word"
+                                             materialDesign:HintAssist.Hint="Search"
+                                             Style="{StaticResource MaterialDesignOutlinedTextBox}">
+                                    </TextBox>
 
-                                                            <StackPanel Grid.Row="1"
-                                                                        Margin="8,24,8,0">
-                                                                <TextBlock FontWeight="Bold"
-                                                                           Text="{Binding Name}" />
-                                                                <Border Background="AliceBlue"
-                                                                        HorizontalAlignment="Left"
-                                                                        Width="100"
-                                                                        BorderThickness="0"
-                                                                        CornerRadius="10"
-                                                                        Height="25"
-                                                                        Margin="5">
-                                                                    <TextBlock VerticalAlignment="Center"
-                                                                               HorizontalAlignment="Center"
-                                                                               Text="Fast food"
-                                                                               Margin="0 5"
-                                                                               FontSize="12" />
-                                                                </Border>
+                                </StackPanel>
+                                <Button Margin="10"
+                                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                        Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                        ToolTip="MaterialDesignFloatingActionMiniLightButton"
+                                        Click="SearchProduct_Click">
+                                    <materialDesign:PackIcon Kind="Magnify" />
+                                </Button>
+                                <Button Margin="10"
+                                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                        Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                        ToolTip="MaterialDesignFloatingActionMiniLightButton"
+                                        Click="CloseSearchProduct_Click">
+                                    <materialDesign:PackIcon Kind="Close" />
+                                </Button>
+                            </StackPanel>
+
+                            <Grid>
+                                <ScrollViewer Height="430">
+                                    <ItemsControl Name="dtgProducts"
+                                                  Margin="10">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel Orientation="Horizontal"
+                                                           Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ScrollViewer}}">
+                                                    <!-- Bind the WrapPanel width to ScrollViewer's ActualWidth -->
+                                                </WrapPanel>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <materialDesign:Card Width="200"
+                                                                     Margin="10"
+                                                                     Padding="0 0 0 10">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="140" />
+                                                            <RowDefinition Height="*" />
+                                                            <RowDefinition Height="Auto" />
+                                                        </Grid.RowDefinitions>
+                                                        <Image Grid.Row="0"
+                                                               Source="{Binding ImagePath}"
+                                                               Stretch="UniformToFill" />
+
+                                                        <StackPanel Grid.Row="1"
+                                                                    Margin="8,24,8,0">
+                                                            <TextBlock FontWeight="Bold"
+                                                                       Text="{Binding ProductName}" />
+                                                            <Border Background="AliceBlue"
+                                                                    HorizontalAlignment="Left"
+                                                                    Width="100"
+                                                                    BorderThickness="0"
+                                                                    CornerRadius="10"
+                                                                    Height="25"
+                                                                    Margin="5">
                                                                 <TextBlock VerticalAlignment="Center"
-                                                                           Text="{Binding Description}"
-                                                                           TextWrapping="Wrap"
+                                                                           HorizontalAlignment="Center"
+                                                                           Text="Fast food"
                                                                            Margin="0 5"
-                                                                           FontSize="14" />
-                                                                <TextBlock VerticalAlignment="Center"
-                                                                           HorizontalAlignment="Right"
-                                                                           Text="{Binding Price, StringFormat={}{0:C}}"
-                                                                           TextWrapping="Wrap"
-                                                                           Margin="0 10"
-                                                                           FontSize="14" />
-                                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                                <materialDesign:NumericUpDown>
+                                                                           FontSize="12" />
+                                                            </Border>
+                                                            <TextBlock VerticalAlignment="Center"
+                                                                       Text="{Binding Description}"
+                                                                       TextWrapping="Wrap"
+                                                                       Margin="0 5"
+                                                                       Height="50"
+                                                                       FontSize="14" />
+                                                            <TextBlock VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Right"
+                                                                       Text="{Binding Price, StringFormat={}{0:C}}"
+                                                                       TextWrapping="Wrap"
+                                                                       Margin="0 10"
+                                                                       FontSize="14" />
+                                                            <StackPanel Orientation="Horizontal"
+                                                                        HorizontalAlignment="Center">
+                                                                <materialDesign:NumericUpDown x:Name="numericUpDown"
+                                                                                              Value="1">
                                                                     <materialDesign:NumericUpDown.IncreaseContent>
                                                                         <Border BorderBrush="{DynamicResource MaterialDesign.Brush.Foreground}"
                                                                                 BorderThickness="1"
@@ -152,17 +198,19 @@
                                                                 <Button Content="{materialDesign:PackIcon Cart}"
                                                                         IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                                                                         ToolTip="Icon"
-                                                                        Margin="5" />
+                                                                        Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                                                        CommandParameter="{Binding DataContext.SelectedProduct}"
+                                                                        Click="AddToCart_Click" />
                                                             </StackPanel>
-                                                          
-                                                                
+
+
                                                         </StackPanel>
-                                                        </Grid>
-                                                    </materialDesign:Card>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </ScrollViewer>
+                                                    </Grid>
+                                                </materialDesign:Card>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
 
                             </Grid>
                         </StackPanel>
@@ -180,15 +228,95 @@
                             </StackPanel>
                         </TabItem.Header>
                         <StackPanel Margin="16">
-                                <TextBlock Text="Your cart"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="24"
-                                           FontWeight="Bold"
-                                           TextAlignment="Center"
-                                           Margin="0 20"
-                                           TextWrapping="Wrap"
-                                           FontFamily="Segoe UI" />
+                            <TextBlock Text="Your cart"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="24"
+                                       FontWeight="Bold"
+                                       TextAlignment="Center"
+                                       Margin="0 20"
+                                       TextWrapping="Wrap"
+                                       FontFamily="Segoe UI">
+                                <TextBlock.Foreground>
+                                    <LinearGradientBrush StartPoint="0,0"
+                                                         EndPoint="1,1">
+                                        <GradientStop Color="#FF008080"
+                                                      Offset="0" />
+                                        <!-- Start color (teal) -->
+                                        <GradientStop Color="#FF20B2AA"
+                                                      Offset="1" />
+                                        <!-- End color (lighter teal) -->
+                                    </LinearGradientBrush>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+
+                            <ScrollViewer Height="500">
+                                <StackPanel>
+                                    <DataGrid Name="dtg_currentOrder"
+                                              ItemsSource="{Binding CurrentOrder.OrderProducts}"
+                                              SelectionMode="Extended"
+                                              SelectionUnit="FullRow"
+                                              CanUserDeleteRows="True"
+                                              CanUserAddRows="True"
+                                              IsReadOnly="True"
+                                              AutoGenerateColumns="False">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="#"
+                                                                Binding="{Binding Product.ProductId}" />
+                                            <DataGridTextColumn Header="Product Name"
+                                                                Binding="{Binding Product.ProductName}" />
+                                            <DataGridTemplateColumn Header="Product">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Image Source="{Binding Product.ImagePath}"
+                                                               Width="50"
+                                                               Height="50" />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Header="Product Price"
+                                                                Binding="{Binding Product.Price}" />
+                                            <DataGridTextColumn Header="Quantity"
+                                                                Binding="{Binding Quantity}" />
+                                            <DataGridTextColumn Header="Total Price"
+                                                                Binding="{Binding TotalPrice}" />
+                                            <DataGridTemplateColumn Header="Actions">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button Content="Delete"
+                                                                Command="{Binding DataContext.DeleteOrderProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                                CommandParameter="{Binding}"
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                Margin="5"
+                                                                Click="DeleteOrderProduct_Click" />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+
+                                    </DataGrid>
+                                    <TextBlock HorizontalAlignment="Right"
+                                               Margin="0 20 280 0"
+                                               FontSize="15">
+                                            Total Price: <Run Name="runTotalPrice" />
+                                    </TextBlock>
+
+                                    <StackPanel Margin="10"
+                                                HorizontalAlignment="Center"
+                                                Orientation="Horizontal">
+                                        <Button Width="150"
+                                                Margin="10"
+                                                Click="ConfirmOrder_Click"
+                                                Background="#FF008080"
+                                                Foreground="White">Confirm Order</Button>
+                                        <Button Width="150"
+                                                Background="#FF20B2AA"
+                                                Foreground="White"
+                                                Click="CancelOrder_Click">Cancel Order</Button>
+                                    </StackPanel>
+                                </StackPanel>
+                            </ScrollViewer>
 
                         </StackPanel>
                     </TabItem>
@@ -199,25 +327,179 @@
                                 <materialDesign:PackIcon Width="24"
                                                          Height="24"
                                                          HorizontalAlignment="Center"
+                                                         Kind="History" />
+                                <TextBlock HorizontalAlignment="Center"
+                                           Text="History" />
+                            </StackPanel>
+                        </TabItem.Header>
+                        <StackPanel Margin="16">
+                            <TextBlock Text="History Order"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="24"
+                                       FontWeight="Bold"
+                                       TextAlignment="Center"
+                                       Margin="0 20"
+                                       TextWrapping="Wrap"
+                                       FontFamily="Segoe UI">
+                                <TextBlock.Foreground>
+                                    <LinearGradientBrush StartPoint="0,0"
+                                                         EndPoint="1,1">
+                                        <GradientStop Color="#FF008080"
+                                                      Offset="0" />
+                                        <!-- Start color (teal) -->
+                                        <GradientStop Color="#FF20B2AA"
+                                                      Offset="1" />
+                                        <!-- End color (lighter teal) -->
+                                    </LinearGradientBrush>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                            <ScrollViewer Height="500">
+                                <DataGrid Name="dtg_historyOrder"
+                                      SelectionMode="Extended"
+                                      SelectionUnit="FullRow"
+                                      CanUserDeleteRows="True"
+                                      CanUserAddRows="True"
+                                      IsReadOnly="True"
+                                      AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="#"
+                                                        Binding="{Binding OrderId}" />
+                                    <DataGridTextColumn Header="Order Date"
+                                                        Binding="{Binding OrderDate}" />
+                                    <DataGridTextColumn Header="Total Price"
+                                                        Binding="{Binding TotalPrice}" />
+                                    <DataGridTextColumn Header="Order Status"
+                                                        Binding="{Binding OrderStatus}" />
+                                    <DataGridTemplateColumn Header="Actions">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="View details"
+                                                        Command="{Binding DataContext.DeleteOrderProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                        CommandParameter="{Binding}"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Margin="5"
+                                                        Click="ViewDetail_Click" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+
+                            </DataGrid>
+                            </ScrollViewer>
+
+                        </StackPanel>
+                    </TabItem>
+
+                    <TabItem>
+                        <TabItem.Header>
+                            <StackPanel Width="auto"
+                                        Height="auto">
+
+                                <materialDesign:PackIcon Width="24"
+                                                         Height="24"
+                                                         HorizontalAlignment="Center"
                                                          Kind="AccountCircle" />
                                 <TextBlock HorizontalAlignment="Center"
                                            Text="Account" />
                             </StackPanel>
                         </TabItem.Header>
-                            <StackPanel Margin="16">
-                                <TextBlock Text="Your account information"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="24"
-                                           FontWeight="Bold"
-                                           TextAlignment="Center"
-                                           Margin="0 20"
-                                           TextWrapping="Wrap"
-                                           FontFamily="Segoe UI" />
+                        <StackPanel Margin="16">
+                            <TextBlock Text="Your account information"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="24"
+                                       FontWeight="Bold"
+                                       TextAlignment="Center"
+                                       Margin="0 20"
+                                       TextWrapping="Wrap"
+                                       FontFamily="Segoe UI">
+                                <TextBlock.Foreground>
+                                    <LinearGradientBrush StartPoint="0,0"
+                                                         EndPoint="1,1">
+                                        <GradientStop Color="#FF008080"
+                                                      Offset="0" />
+                                        <!-- Start color (teal) -->
+                                        <GradientStop Color="#FF20B2AA"
+                                                      Offset="1" />
+                                        <!-- End color (lighter teal) -->
+                                    </LinearGradientBrush>
+                                </TextBlock.Foreground>
+                            </TextBlock>
 
+                            <Grid Margin="10 10"
+                                  Width="700"
+                                  HorizontalAlignment="Left">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+
+                                </Grid.RowDefinitions>
+                                <TextBlock Margin="0 10"
+                                           FontFamily="Montserrat"
+                                           Grid.Row="0"
+                                           Grid.Column="0">
+                                    UserName:   
+                                </TextBlock>
+                                <TextBlock FontWeight="DemiBold"
+                                           Margin="0 10"
+                                           FontFamily="Montserrat"
+                                          Name="txtUserName"
+                                           Grid.Row="0"
+                                           Grid.Column="1" />
+                                <TextBlock Margin="0 10"
+                                           FontFamily="Montserrat"
+                                           
+                                           Grid.Row="1"
+                                           Grid.Column="0">
+                                    Email:
+                                </TextBlock>
+                                <TextBlock FontWeight="DemiBold"
+                                           Margin="0 10"
+                                           FontFamily="Montserrat"
+                                           Name="txtEmail"
+                                           Grid.Column="1"
+                                           Grid.Row="1" />
+                                <TextBlock Margin="0 10"
+                                           FontFamily="Montserrat"
+                                           Grid.Column="0"
+                                           Grid.Row="2">
+                                    Password:
+                                </TextBlock>
+                                <TextBlock FontWeight="DemiBold"
+                                           Margin="0 10"
+                                           FontFamily="Montserrat"
+                                           Name="txtPassword"
+                                           Grid.Column="1"
+                                           Grid.Row="2" />
+                            </Grid>
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                <Button Width="150"
+                                        Foreground="White"
+                                        Click="UpdateInfo_Click"
+                                        >Update Info</Button>
+                                <Button Width="150"
+                                        Margin="10 0"
+                                        Background="#FF20B2AA"
+                                        Foreground="White"
+                                        Click="ChangePassword_Click"
+                                        >Change Password</Button>
+                                <Button Width="150"
+                                        Foreground="White" 
+                                        Background="OrangeRed"
+                                        Click="Logout_Click">
+                                    Log out
+                                </Button>
+                            </StackPanel>
                         </StackPanel>
                     </TabItem>
-                 
+
                 </TabControl>
             </materialDesign:Card>
         </Border>

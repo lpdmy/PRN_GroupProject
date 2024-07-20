@@ -186,26 +186,33 @@
                                FontFamily="Segoe UI"
                                Margin="0 20"/>
 
-                    <TextBox BorderThickness="0 0 0 1.5"
+                    <TextBox
+                            Name="txtUserNameSignUp"
+                            BorderThickness="0 0 0 1.5"
                              BorderBrush="#C5C8CC"
                              materialDesign:HintAssist.FloatingOffset="0,-20"
                              materialDesign:HintAssist.Hint="Username"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                    <TextBox BorderThickness="0 0 0 1.5"
+                    <TextBox 
+                        Name="txtEmailSignUp"
+                        BorderThickness="0 0 0 1.5"
                              BorderBrush="#C5C8CC"
                              materialDesign:HintAssist.FloatingOffset="0,-20"
                              materialDesign:HintAssist.Hint="Email"
                              Margin="0 27 0 27"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                    <PasswordBox BorderThickness="0 0 0 1.5"
+                    <PasswordBox
+                        Name="txtPasswordSignUp"
+                        BorderThickness="0 0 0 1.5"
                                  BorderBrush="#C5C8CC"
                                  materialDesign:HintAssist.FloatingOffset="0,-18"
                                  materialDesign:HintAssist.Hint="Password"
                                  Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
-                    <PasswordBox BorderThickness="0 0 0 1.5"
+                    <PasswordBox Name="txtConfirmPasswordSignUp"
+                                 BorderThickness="0 0 0 1.5"
                                  BorderBrush="#C5C8CC"
                                  materialDesign:HintAssist.FloatingOffset="0,-18"
-                                 materialDesign:HintAssist.Hint="Repeat Password"
+                                 materialDesign:HintAssist.Hint="Confirm Password"
                                  Margin="0 27 0 0"
                                  Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
 
@@ -224,7 +231,11 @@
                                 FontSize="18"
                                 materialDesign:ButtonAssist.CornerRadius="22"
                                 Height="45"
-                                Width="120" />
+                                Width="120" 
+                                Click="SignUpRealButton_Click"
+                                />
+                        <!--Click="SignUpButtonReal_Click"-->
+
                         <Button x:Name="LoginButton"
                                 Content="or Login"
                                 materialDesign:ButtonAssist.CornerRadius="22"
@@ -254,12 +265,13 @@
                                Margin="0 20"/>
                     <TextBox BorderThickness="0 0 0 1.5"
                              BorderBrush="#C5C8CC"
-                             
+                             Name="txtUsernameLogin"
                              materialDesign:HintAssist.FloatingOffset="0,-20"
                              materialDesign:HintAssist.Hint="Username"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
                     <PasswordBox BorderThickness="0 0 0 1.5"
                                  BorderBrush="#C5C8CC"
+                                 Name="pwdPasswordLogin"
                                  Margin="0 27"
                                  materialDesign:HintAssist.FloatingOffset="0,-18"
                                  materialDesign:HintAssist.Hint="Password"
@@ -272,7 +284,9 @@
                                 FontSize="18"
                                 materialDesign:ButtonAssist.CornerRadius="22"
                                 Height="45"
-                                Width="120" />
+                                Width="120" 
+                                Click="SignInButtonReal_Click"
+                                />
                         <Button Content="or Sign Up"
                                 materialDesign:ButtonAssist.CornerRadius="22"
                                 FontSize="16"

@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 D:\PE_Practice_PRN49k\PRN_Group Project\WpfApp\App.xaml
-3997032499
+12-1322429743
 
-6-19200853
-2011818335677
-AdminWindow.xaml;CustomerWindow.xaml;MainWindow.xaml;
+151598412271
+25072069392
+AddCategoryWindow.xaml;AddProductWindow.xaml;AdminWindow.xaml;ChangePasswordWindow.xaml;CustomerWindow.xaml;MainWindow.xaml;MessageBoxCustom.xaml;OrderDetailWindow.xaml;UpdateCategoryWindow.xaml;UpdateOrderStatusWindow.xaml;UpdateProductWindow.xaml;UpdateUserInformationWindow.xaml;
 
 False
 
